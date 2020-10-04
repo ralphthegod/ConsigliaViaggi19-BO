@@ -164,11 +164,6 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void usersCallback(List<User> users, int callbackCode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     volatile private boolean isHandshakeAccepted = false;
     volatile private boolean isHandshakeCodeWrong = false;
     
@@ -238,5 +233,10 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
             isHandshakeCodeWrong = true;
             showError(new Exception("Codice errato."),0);
         }
+    }
+
+    @Override
+    public void callback(User user, int callbackCode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

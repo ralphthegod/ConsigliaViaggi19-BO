@@ -10,5 +10,5 @@ package com.cv19.dao;
  * @author rafdi
  */
 public interface ReviewDAO {
-    
+    public void getReviewsByUserID(String uid, DatabaseCallback callback, int callbackCode);
 }

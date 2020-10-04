@@ -18,22 +18,44 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     private String displayName;
+    private String databasebID;
+
+    public String getDatabasebID() {
+        return databasebID;
+    }
+
+    public void setDatabasebID(String databasebID) {
+        this.databasebID = databasebID;
+    }
     private String email;
     private String avatar;
     private String userID;
-    private boolean isBlacklisted;
+    private boolean blacklisted;
     private Integer nReview;
     private Float avgReview;
     private int sumReviews;
     private String registerDate;
+    private String lastSignIn;
+
+    public String getLastSignIn() {
+        return lastSignIn;
+    }
+
+    public void setLastSignIn(String lastSignIn) {
+        this.lastSignIn = lastSignIn;
+    }
     private String firstName;
     private String lastName;
 
-    public User(String displayName, String email, String userID, boolean isBlacklisted, Integer nReview, Float avgReview, String registerDate,String avatar,String firstName,String lastName, int sumReviews) {
+    public User(){
+        
+    }
+    
+    public User(String displayName, String email, String userID, boolean blacklisted, Integer nReview, Float avgReview, String registerDate,String avatar,String firstName,String lastName, int sumReviews) {
         this.displayName = displayName;
         this.email = email;
         this.userID = userID;
-        this.isBlacklisted = isBlacklisted;
+        this.blacklisted = blacklisted;
         this.nReview = nReview;
         this.avgReview = avgReview;
         this.registerDate = registerDate;
@@ -67,14 +89,13 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    private static User localInstance = null;
 
     public boolean isBlacklisted() {
-        return isBlacklisted;
+        return blacklisted;
     }
 
     public void setBlacklisted(boolean blacklisted) {
-        isBlacklisted = blacklisted;
+        blacklisted = blacklisted;
     }
 
     public int getnReview() {
@@ -101,19 +122,6 @@ public class User implements Serializable {
         this.registerDate = registerDate;
     }
 
-    public static void setLocalInstance(User localInstance) {
-        User.localInstance = localInstance;
-    }
-
-    public User()
-    {
-
-    }
-
-    public static User getLocalInstance()
-    {
-            return localInstance;
-    }
 
     public String getDisplayName() {
         return displayName;

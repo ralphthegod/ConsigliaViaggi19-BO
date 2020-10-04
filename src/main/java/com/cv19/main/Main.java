@@ -7,6 +7,7 @@ package com.cv19.main;
 
 import com.cv19.dao.DAOFactory;
 import com.cv19.ui.AuthUI;
+import com.cv19.ui.HomeUI;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -38,6 +39,7 @@ public class Main {
             java.util.logging.Logger.getLogger(AuthUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         DAOFactory.getDAOInstance().initDatabase();
-        new AuthUI().setVisible(true);   
+        //new AuthUI().setVisible(true);   
+        new HomeUI().setVisible(true);
     }
 }

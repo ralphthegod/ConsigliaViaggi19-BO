@@ -19,6 +19,6 @@ public interface DatabaseCallback {
     public void callback(HandshakeRequest hreq, String id, int callbackCode);
     public void callback(boolean response, int callbackCode);
     public void reviewsCallback(List<Review> reviews, int callbackCode);
-    public void usersCallback(List<User> users, int callbackCode);
+    public void callback(User user, int callbackCode);
     public void showError(Exception e, int callbackCode);
 }
