@@ -164,7 +164,7 @@ public class AuthFirebaseDAO implements AuthDAO{
                         if(ds.getKey().equals(userID))
                         {
                             System.out.println("Response found. " + hreq.getRequestCode());
-                            if(((String) ds.child("requestToken").getValue()).equals(hreq.getRequestToken())){
+                            if(((String) ds.child("token").getValue()).equals(hreq.getRequestToken())){
                                 System.out.println("Token agreed.");
                                 String responseCode = ds.child("responseCode").getValue().toString();
                                 if(responseCode.equals(String.valueOf(hreq.getRequestCode()))){

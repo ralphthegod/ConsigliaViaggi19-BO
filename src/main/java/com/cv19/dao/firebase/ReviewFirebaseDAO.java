@@ -10,16 +10,20 @@ import com.cv19.dao.ReviewDAO;
 import com.cv19.dao.models.Place;
 import com.cv19.dao.models.Review;
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.EventListener;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreException;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.cloud.FirestoreClient;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
 /**
@@ -49,6 +53,23 @@ public class ReviewFirebaseDAO implements ReviewDAO {
         } catch (ExecutionException ex) {
             callback.showError(ex, callbackCode);
         }   
+    }
+
+    @Override
+    public void deleteReviewsByUserID(String uid, DatabaseCallback callback, int callbackCode) {
+        ApiFuture<QuerySnapshot> future = fDat.collection("reviewPool").whereEqualTo("userId", uid).get();
+        List<QueryDocumentSnapshot> documents;
+        try {
+            documents = future.get().getDocuments();
+            for (DocumentSnapshot document : documents) {
+                document.getReference().delete();
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ReviewFirebaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(ReviewFirebaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

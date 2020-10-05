@@ -395,6 +395,7 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
         int dialogResult = JOptionPane.showConfirmDialog (null, "Sei sicuro di voler eliminare l'utente "+showingUser.getDisplayName()+"?","Warning",JOptionPane.YES_NO_OPTION);
         if(dialogResult == JOptionPane.YES_OPTION){
           userDao.deleteUserByUser(showingUser, this, 1);
+          reviewDao.deleteReviewsByUserID(showingUser.getUserID(), this, ALLBITS);
         }
 
     }//GEN-LAST:event_bDeleteActionPerformed

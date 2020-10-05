@@ -11,4 +11,5 @@ package com.cv19.dao;
  */
 public interface ReviewDAO {
     public void getReviewsByUserID(String uid, DatabaseCallback callback, int callbackCode);
+    public void deleteReviewsByUserID(String uid, DatabaseCallback callback, int callbackCode);
 }

@@ -39,6 +39,7 @@ public class Main {
             java.util.logging.Logger.getLogger(AuthUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         DAOFactory.getDAOInstance().initDatabase();
-        new AuthUI().setVisible(true);
+        //new AuthUI().setVisible(true);
+        new HomeUI().setVisible(true);
     }
 }
