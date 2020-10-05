@@ -8,7 +8,9 @@ package com.cv19.ui;
 import com.cv19.dao.DAOFactory;
 import com.cv19.dao.DatabaseCallback;
 import com.cv19.dao.HandshakeRequest;
+import com.cv19.dao.ReviewDAO;
 import com.cv19.dao.UserDAO;
+import com.cv19.dao.models.Place;
 import com.cv19.dao.models.Review;
 import com.cv19.dao.models.User;
 import java.awt.Desktop;
@@ -18,8 +20,13 @@ import java.io.IOException;
 import java.math.RoundingMode;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -31,18 +38,23 @@ import javax.swing.WindowConstants;
  */
 public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback{
 
+    ReviewDAO reviewDao;
     UserDAO userDao;
     User showingUser;
     
+    
     public UserResultUI(){
     initComponents();
+    
     }
     
     public UserResultUI(User user) {
+        setResizable(false);
         initComponents();
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         showingUser = user;
         userDao = DAOFactory.getDAOInstance().getUserDAO();
+        reviewDao = DAOFactory.getDAOInstance().getReviewDAO();
         initData();
     }
     
@@ -69,7 +81,11 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
         else tLinkAvatar.setText("nessun avatar trovato");
         tUserID.setText(showingUser.getUserID());
         tRegDate.setText(showingUser.getRegisterDate());
-        tLastLogin.setText(showingUser.getLastSignIn());
+        long millis = Long.parseLong(showingUser.getLastSignIn());
+        int days = (int) (millis) / (60*60*24*1000);
+        System.out.println(days);
+        LocalDate date = LocalDate.now().minusDays(days*-1);
+        tLastLogin.setText(date.toString());
         tBlacklist.setText(String.valueOf(showingUser.isBlacklisted()));
         tNReviews.setText(String.valueOf(showingUser.getnReview()));
         DecimalFormat df = new DecimalFormat("##.#");
@@ -106,13 +122,12 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
         jPanel2 = new javax.swing.JPanel();
         bBlacklist = new javax.swing.JButton();
         bDelete = new javax.swing.JButton();
+        tShowReviews = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         tNReviews = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         tAVGReviews = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        tShowReviews = new javax.swing.JButton();
 
         jLabel7.setText("jLabel7");
 
@@ -237,7 +252,7 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         bBlacklist.setBackground(new java.awt.Color(255, 51, 51));
-        bBlacklist.setForeground(new java.awt.Color(255, 255, 255));
+        bBlacklist.setForeground(new java.awt.Color(0, 0, 0));
         bBlacklist.setText("Blacklist");
         bBlacklist.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,11 +261,20 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
         });
 
         bDelete.setBackground(new java.awt.Color(255, 51, 51));
-        bDelete.setForeground(new java.awt.Color(255, 255, 255));
+        bDelete.setForeground(new java.awt.Color(0, 0, 0));
         bDelete.setText("Elimina utente");
         bDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bDeleteActionPerformed(evt);
+            }
+        });
+
+        tShowReviews.setBackground(new java.awt.Color(255, 51, 51));
+        tShowReviews.setForeground(new java.awt.Color(0, 0, 0));
+        tShowReviews.setText("Mostra recensioni");
+        tShowReviews.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tShowReviewsActionPerformed(evt);
             }
         });
 
@@ -260,19 +284,26 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(65, 65, 65)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bBlacklist, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(bBlacklist, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(69, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tShowReviews, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(bBlacklist, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(55, 55, 55)
                 .addComponent(bDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tShowReviews, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -315,39 +346,7 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(tAVGReviews))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        tShowReviews.setBackground(new java.awt.Color(255, 51, 51));
-        tShowReviews.setForeground(new java.awt.Color(255, 255, 255));
-        tShowReviews.setText("Mostra recensioni");
-        tShowReviews.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tShowReviewsActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 257, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(67, 67, 67)
-                    .addComponent(tShowReviews, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(67, Short.MAX_VALUE)))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(34, 34, 34)
-                    .addComponent(tShowReviews, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(34, Short.MAX_VALUE)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -363,10 +362,8 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
                             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,14 +371,14 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
                 .addGap(15, 15, 15)
                 .addComponent(tUsername)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -403,7 +400,7 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
     }//GEN-LAST:event_bDeleteActionPerformed
 
     private void tShowReviewsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tShowReviewsActionPerformed
-        // TODO add your handling code here:
+        reviewDao.getReviewsByUserID(showingUser.getUserID(), this, 0);
     }//GEN-LAST:event_tShowReviewsActionPerformed
 
     /**
@@ -457,7 +454,6 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel tAVGReviews;
     private javax.swing.JLabel tBlacklist;
     private javax.swing.JLabel tEmail;
@@ -496,8 +492,8 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
     }
 
     @Override
-    public void reviewsCallback(List<Review> reviews, int callbackCode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void callback(List<Review> reviews, int callbackCode) {
+        new ReviewsResultUI(reviews).setVisible(true);
     }
 
     @Override
@@ -507,6 +503,19 @@ public class UserResultUI extends javax.swing.JFrame implements DatabaseCallback
 
     @Override
     public void showError(Exception e, int callbackCode) {
+        JOptionPane.showMessageDialog(this,
+                e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
+    public void callback(Place place, int callbackCode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void callback(Place place, int pos, int callbackCode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

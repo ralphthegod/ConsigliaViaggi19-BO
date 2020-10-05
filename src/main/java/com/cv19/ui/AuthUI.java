@@ -10,6 +10,7 @@ import com.cv19.dao.DAOFactory;
 import com.cv19.dao.DatabaseCallback;
 import com.cv19.dao.HandshakeRequest;
 import com.cv19.dao.firebase.AuthFirebaseDAO;
+import com.cv19.dao.models.Place;
 import com.cv19.dao.models.Review;
 import com.cv19.dao.models.User;
 import java.awt.Component;
@@ -160,7 +161,7 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
     }
 
     @Override
-    public void reviewsCallback(List<Review> reviews, int callbackCode) {
+    public void callback(List<Review> reviews, int callbackCode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -227,6 +228,8 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
         if(response){ 
             isHandshakeAccepted = true;
             tHandshakeStatus.setText("Handshake effettuato con successo.");
+            new HomeUI().setVisible(true);
+            dispose();
         }
         else
         {
@@ -237,6 +240,16 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
 
     @Override
     public void callback(User user, int callbackCode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void callback(Place place, int callbackCode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void callback(Place place, int pos, int callbackCode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

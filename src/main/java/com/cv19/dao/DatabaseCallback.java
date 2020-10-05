@@ -5,6 +5,7 @@
  */
 package com.cv19.dao;
 
+import com.cv19.dao.models.Place;
 import com.cv19.dao.models.Review;
 import com.cv19.dao.models.User;
 import java.util.List;
@@ -18,7 +19,9 @@ public interface DatabaseCallback {
     public void callback(String message, int callbackCode);
     public void callback(HandshakeRequest hreq, String id, int callbackCode);
     public void callback(boolean response, int callbackCode);
-    public void reviewsCallback(List<Review> reviews, int callbackCode);
+    public void callback(List<Review> reviews, int callbackCode);
     public void callback(User user, int callbackCode);
+    public void callback(Place place, int callbackCode);
+    public void callback(Place place, int pos, int callbackCode);
     public void showError(Exception e, int callbackCode);
 }

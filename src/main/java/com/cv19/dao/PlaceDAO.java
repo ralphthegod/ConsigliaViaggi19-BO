@@ -10,5 +10,6 @@ package com.cv19.dao;
  * @author rafdi
  */
 public interface PlaceDAO {
-    
+    public void getPlaceByID(String id, DatabaseCallback callback, int callbackCode);
+    public void getPlaceByID(String id, int pos, DatabaseCallback callback, int callbackCode);
 }

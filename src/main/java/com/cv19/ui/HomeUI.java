@@ -9,12 +9,15 @@ import com.cv19.dao.DAOFactory;
 import com.cv19.dao.DatabaseCallback;
 import com.cv19.dao.HandshakeRequest;
 import com.cv19.dao.UserDAO;
+import com.cv19.dao.models.Place;
 import com.cv19.dao.models.Review;
 import com.cv19.dao.models.User;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,9 +35,18 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
     
     public HomeUI() {
         initComponents();
+        initIcons();
         userDao = DAOFactory.getDAOInstance().getUserDAO();
-        initRadioButtonGroup();
         initCardLayout();
+        setResizable(false);
+    }
+    
+    private void initIcons(){
+        iDB.setIcon(new ImageIcon("src/main/java/com/cv19/server.png"));
+        iAddPlace.setIcon(new ImageIcon("src/main/java/com/cv19/building.png"));
+        iCheckReview.setIcon(new ImageIcon("src/main/java/com/cv19/customer-satisfaction.png"));
+        bBack.setIcon(new ImageIcon("src/main/java/com/cv19/back.png"));
+        validate();
     }
   
     public void initCardLayout(){
@@ -42,12 +54,6 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
         cl.show(pMainContainer, "pHome");
     }
     
-    public void initRadioButtonGroup(){
-        rbGroup.add(rbEmail);
-        rbGroup.add(rbID);
-        rbGroup.add(rbUsername);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +66,17 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
         rbGroup = new javax.swing.ButtonGroup();
         pMainContainer = new javax.swing.JPanel();
         pHome = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        iAddPlace = new javax.swing.JLabel();
+        bAddPlace = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        bCheckReview = new javax.swing.JButton();
+        iCheckReview = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         bToSearchDB = new javax.swing.JButton();
+        iDB = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         pSearchDB = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         eSearchInput = new javax.swing.JTextField();
@@ -70,10 +86,77 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         rbUsername = new javax.swing.JRadioButton();
+        bBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pMainContainer.setLayout(new java.awt.CardLayout());
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setPreferredSize(new java.awt.Dimension(189, 197));
+
+        bAddPlace.setText("Aggiungi Struttura");
+        bAddPlace.setActionCommand("AggiungiS");
+        bAddPlace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAddPlaceActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iAddPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(bAddPlace)))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(iAddPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bAddPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        bCheckReview.setText("Approva Recensioni");
+        bCheckReview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCheckReviewActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(iCheckReview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bCheckReview))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(iCheckReview, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bCheckReview, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         bToSearchDB.setText("Cerca nel Database");
         bToSearchDB.addActionListener(new java.awt.event.ActionListener() {
@@ -82,28 +165,89 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
             }
         });
 
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(iDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bToSearchDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(iDB, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bToSearchDB, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setText("Benvenuto!");
+
         javax.swing.GroupLayout pHomeLayout = new javax.swing.GroupLayout(pHome);
         pHome.setLayout(pHomeLayout);
         pHomeLayout.setHorizontalGroup(
             pHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pHomeLayout.createSequentialGroup()
-                .addGap(381, 381, 381)
-                .addComponent(bToSearchDB)
-                .addContainerGap(384, Short.MAX_VALUE))
+                .addGroup(pHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pHomeLayout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pHomeLayout.createSequentialGroup()
+                        .addGap(309, 309, 309)
+                        .addComponent(jLabel2)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         pHomeLayout.setVerticalGroup(
             pHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pHomeLayout.createSequentialGroup()
-                .addGap(247, 247, 247)
-                .addComponent(bToSearchDB, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(276, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pHomeLayout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
 
         pMainContainer.add(pHome, "card4");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel1.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         eSearchInput.setToolTipText("");
+        eSearchInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eSearchInputActionPerformed(evt);
+            }
+        });
 
         bSearch.setText("Cerca");
         bSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -112,14 +256,15 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
             }
         });
 
+        rbGroup.add(rbEmail);
         rbEmail.setText("Email");
-        rbEmail.setActionCommand("Email");
         rbEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbEmailActionPerformed(evt);
             }
         });
 
+        rbGroup.add(rbID);
         rbID.setText("ID");
         rbID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,7 +276,13 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
 
         jLabel3.setText("Database");
 
+        rbGroup.add(rbUsername);
         rbUsername.setText("Username");
+        rbUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbUsernameActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -174,21 +325,31 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
+        bBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pSearchDBLayout = new javax.swing.GroupLayout(pSearchDB);
         pSearchDB.setLayout(pSearchDBLayout);
         pSearchDBLayout.setHorizontalGroup(
             pSearchDBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pSearchDBLayout.createSequentialGroup()
-                .addGap(163, 163, 163)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(176, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pSearchDBLayout.createSequentialGroup()
+                .addContainerGap(93, Short.MAX_VALUE)
+                .addGroup(pSearchDBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bBack)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(90, 90, 90))
         );
         pSearchDBLayout.setVerticalGroup(
             pSearchDBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pSearchDBLayout.createSequentialGroup()
-                .addGap(170, 170, 170)
+                .addGap(56, 56, 56)
+                .addComponent(bBack)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(239, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         pMainContainer.add(pSearchDB, "card3");
@@ -201,9 +362,10 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
     public static final int CALLBACK_QUERY_USERNAME = 0;
     public static final int CALLBACK_QUERY_EMAIL = 0;
     public static final int CALLBACK_QUERY_ID = 0;
+    public static String rbSelection = "Email";
     
     public void initQuery(String searchString){
-        switch(rbGroup.getSelection().getActionCommand()){
+        switch(rbSelection){
             case "Username":
                 userDao.getUserByUsername(searchString, this, CALLBACK_QUERY_USERNAME);
                 break;
@@ -216,24 +378,47 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
         }
     }
     
-    private void bToSearchDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bToSearchDBActionPerformed
-        pMainContainer.removeAll();
-        pMainContainer.add(pSearchDB);
-        pMainContainer.revalidate();
-    }//GEN-LAST:event_bToSearchDBActionPerformed
-
     private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
         bSearch.setEnabled(false);
         initQuery(eSearchInput.getText());
     }//GEN-LAST:event_bSearchActionPerformed
 
     private void rbEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEmailActionPerformed
-        // TODO add your handling code here:
+        rbSelection = "Email";
     }//GEN-LAST:event_rbEmailActionPerformed
 
     private void rbIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbIDActionPerformed
-        // TODO add your handling code here:
+        rbSelection = "ID";
     }//GEN-LAST:event_rbIDActionPerformed
+
+    private void eSearchInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eSearchInputActionPerformed
+        
+    }//GEN-LAST:event_eSearchInputActionPerformed
+
+    private void rbUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbUsernameActionPerformed
+        rbSelection = "Username";
+    }//GEN-LAST:event_rbUsernameActionPerformed
+
+    private void bToSearchDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bToSearchDBActionPerformed
+        pMainContainer.removeAll();
+        pMainContainer.add(pSearchDB);
+        pMainContainer.revalidate();
+    }//GEN-LAST:event_bToSearchDBActionPerformed
+
+    private void bCheckReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCheckReviewActionPerformed
+        this.showError(new UnsupportedOperationException("Not supported yet."), 0);
+    }//GEN-LAST:event_bCheckReviewActionPerformed
+
+    private void bAddPlaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddPlaceActionPerformed
+       this.showError(new UnsupportedOperationException("Not supported yet."), 0);
+    }//GEN-LAST:event_bAddPlaceActionPerformed
+
+    private void bBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBackActionPerformed
+        new HomeUI().setVisible(true);
+        pMainContainer.removeAll();
+        pMainContainer.revalidate();
+        dispose();
+    }//GEN-LAST:event_bBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,12 +457,23 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bAddPlace;
+    private javax.swing.JButton bBack;
+    private javax.swing.JButton bCheckReview;
     private javax.swing.JButton bSearch;
     private javax.swing.JButton bToSearchDB;
     private javax.swing.JTextField eSearchInput;
+    private javax.swing.JLabel iAddPlace;
+    private javax.swing.JLabel iCheckReview;
+    private javax.swing.JLabel iDB;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel pHome;
     private javax.swing.JPanel pMainContainer;
     private javax.swing.JPanel pSearchDB;
@@ -308,7 +504,7 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
     }
 
     @Override
-    public void reviewsCallback(List<Review> reviews, int callbackCode) {
+    public void callback(List<Review> reviews, int callbackCode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -319,11 +515,7 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
                 e.getMessage(),
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AuthUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
             bSearch.setEnabled(true);
     }
 
@@ -331,5 +523,15 @@ public class HomeUI extends javax.swing.JFrame implements DatabaseCallback {
     public void callback(User user, int callbackCode) {
         new UserResultUI(user).setVisible(true);
         bSearch.setEnabled(true);
+    }
+
+    @Override
+    public void callback(Place place, int callbackCode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void callback(Place place, int pos, int callbackCode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
