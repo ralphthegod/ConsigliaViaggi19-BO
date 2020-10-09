@@ -51,6 +51,8 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
         bSignin = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         tHandshakeStatus = new javax.swing.JLabel();
+        ePIN = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -79,25 +81,36 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
         tHandshakeStatus.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         tHandshakeStatus.setText("Pronto per la connessione.");
 
+        ePIN.setToolTipText("");
+        ePIN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ePINActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setLabelFor(eUsername);
+        jLabel2.setText("PIN");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(eUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bSignin, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tHandshakeStatus)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ePIN, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bSignin, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1)
+                    .addComponent(eUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,10 +120,14 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(eUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(eUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ePIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bSignin))
-                .addGap(76, 76, 76)
+                .addGap(24, 24, 24)
                 .addComponent(tHandshakeStatus)
                 .addContainerGap())
         );
@@ -130,6 +147,10 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
         authDao.authentication(eUsername.getText(), this, 0);
     }//GEN-LAST:event_bSigninActionPerformed
 
+    private void ePINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ePINActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ePINActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -144,8 +165,10 @@ public class AuthUI extends javax.swing.JFrame implements DatabaseCallback{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bSignin;
+    private javax.swing.JTextField ePIN;
     private javax.swing.JTextField eUsername;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel tHandshakeStatus;
     // End of variables declaration//GEN-END:variables
