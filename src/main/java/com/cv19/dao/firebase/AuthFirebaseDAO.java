@@ -110,7 +110,7 @@ public class AuthFirebaseDAO implements AuthDAO{
         fDat.getReference().child("backendResponseTokens").child(uid).removeValueAsync();
     }
     
-    private void requestHandshake(String userID, int permissionLevel, DatabaseCallback callback, int callbackCode){
+    public void requestHandshake(String userID, int permissionLevel, DatabaseCallback callback, int callbackCode){
         
         deleteExpiredHandshakeResponse(userID);
         

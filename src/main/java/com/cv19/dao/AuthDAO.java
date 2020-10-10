@@ -17,4 +17,6 @@ public interface AuthDAO {
     public void authentication(String username,DatabaseCallback callback, int callbackCode);
     public void handleHandshakeResponses(HandshakeRequest hreq, String userID, DatabaseCallback callback, int callbackCode);
     public void cancelHandshake(String uid);
+    public void deleteExpiredHandshakeResponse(String uid);
+    public void requestHandshake(String userID, int permissionLevel, DatabaseCallback callback, int callbackCode);
 }
